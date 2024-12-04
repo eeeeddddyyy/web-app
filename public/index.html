@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>BEER WEB APP</title>
+</head>
+<body>
+    <h1>🍺 BEER COLLECTION 🍺</h1>
+    <button onclick="openModal()">Add Beer</button>
+
+    <table id="beer-table">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>TYPE</th>
+              <th>DESCRIPTION</th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Beer rows will be dynamically inserted here -->
+      </tbody>
+  </table>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="beer-form" class="form-container">
+          <label class="form-label">
+            NAME:
+          <input type="text" id="beer-name" class="form-input" required>
+          </label>
+          <label class="form-label">
+            TYPE:
+          <input type="text" id="beer-type" class="form-input" required>
+          </label>
+          <label class="form-label">
+            DESCRIPTION:
+          <input type="text" id="beer-description" class="form-input" required>
+          </label>
+          <button type="submit" class="form-button">Save</button>
+          </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

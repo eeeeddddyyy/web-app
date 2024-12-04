@@ -1,16 +1,19 @@
 const express = require('express');
-const app = express();
+const path = require('path');
+const beerRoutes = require('./routes/beerRoutes');
 
+const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('sfgdh!');
-});
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/database', (req, res) => {
-    res.send('here');
+app.use('/api', beerRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on https://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
