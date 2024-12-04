@@ -1,6 +1,5 @@
 const db = require('../models/db');
 
-// Get all beers
 exports.getAllBeers = (req, res) => {
     db.all('SELECT * FROM beers', [], (err, rows) => {
         if (err) {
@@ -11,7 +10,6 @@ exports.getAllBeers = (req, res) => {
     });
 };
 
-// Add a new beer
 exports.addBeer = (req, res) => {
     const { name, type, description } = req.body;
     db.run(
@@ -27,7 +25,6 @@ exports.addBeer = (req, res) => {
     );
 };
 
-// Update a beer
 exports.updateBeer = (req, res) => {
     const { id } = req.params;
     const { name, type, description } = req.body;
@@ -44,7 +41,6 @@ exports.updateBeer = (req, res) => {
     );
 };
 
-// Delete a beer
 exports.deleteBeer = (req, res) => {
     const { id } = req.params;
     db.run('DELETE FROM beers WHERE id = ?', [id], function (err) {

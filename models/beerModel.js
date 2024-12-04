@@ -3,7 +3,6 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../db/beer.db');
 
-// Connect to SQLite database
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error connecting to SQLite:', err.message);

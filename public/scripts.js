@@ -2,7 +2,6 @@ const beerTableBody = document.querySelector('#beer-table tbody');
 const modal = document.getElementById('modal');
 const beerForm = document.getElementById('beer-form');
 
-// Open and Close Modal
 function openModal() {
     modal.style.display = 'block';
 }
@@ -11,7 +10,6 @@ function closeModal() {
     modal.style.display = 'none';
 }
 
-// Fetch and Display Beers in Table
 async function fetchBeers() {
     const response = await fetch('/api/beers');
     const beers = await response.json();
@@ -29,7 +27,6 @@ async function fetchBeers() {
     `).join('');
 }
 
-// Add Beer
 beerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -45,13 +42,10 @@ beerForm.addEventListener('submit', async (e) => {
 
     const newBeer = await response.json();
     addBeerToTable(newBeer);
-
-    // Reset form and close modal
     beerForm.reset();
     closeModal();
 });
 
-// Add New Beer Row to Table
 function addBeerToTable(beer) {
     const newRow = document.createElement('tr');
     newRow.id = `beer-${beer.id}`;
@@ -66,12 +60,8 @@ function addBeerToTable(beer) {
     `;
     beerTableBody.appendChild(newRow);
 }
-
-// Delete Beer
 async function deleteBeer(id) {
     await fetch(`/api/beers/${id}`, { method: 'DELETE' });
     document.getElementById(`beer-${id}`).remove();
 }
-
-// Initial Fetch
 fetchBeers();

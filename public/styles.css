@@ -81,7 +81,6 @@ th {
   border-radius: 4px;
   outline: none;
 }
-
 .form-input:focus {
   border-color: #422800; 
   box-shadow: #422800;
