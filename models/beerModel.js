@@ -1,10 +1,14 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
-// Path to the SQLite database
-const dbPath = path.join(__dirname, '../db/beer.db');
+const dbDirectory = path.join(__dirname, '../db');
+const dbPath = path.join(dbDirectory, 'beer.db');
 
-// Initialize the database
+if (!fs.existsSync(dbDirectory)) {
+    fs.mkdirSync(dbDirectory, { recursive: true }); 
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error connecting to SQLite database:', err.message);
@@ -13,7 +17,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
     console.log('Connected to SQLite database.');
 
-    // Create the beers table if it doesn't exist
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS beers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,8 +33,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
         } else {
             console.log('Beers table is ready.');
         }
-
-        // Close the database connection
+        
         db.close((closeErr) => {
             if (closeErr) {
                 console.error('Error closing the database:', closeErr.message);
