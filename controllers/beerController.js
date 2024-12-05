@@ -1,5 +1,3 @@
-const db = require('../db/beer.db');
-
 exports.getAllBeers = (req, res) => {
     db.all('SELECT * FROM beers', [], (err, rows) => {
         if (err) {
