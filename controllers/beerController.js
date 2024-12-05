@@ -1,4 +1,4 @@
-const db = require('../db/beer.db');
+const db = require('../models/beerModel.js');
 
 exports.getAllBeers = (req, res) => {
     db.all('SELECT * FROM beers', [], (err, rows) => {
