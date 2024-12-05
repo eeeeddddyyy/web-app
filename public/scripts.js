@@ -1,67 +1,47 @@
-const beerTableBody = document.querySelector('#beer-table tbody');
-const modal = document.getElementById('modal');
-const beerForm = document.getElementById('beer-form');
-
 function openModal() {
-    modal.style.display = 'block';
+    document.getElementById("modal").style.display = "block";
 }
 
 function closeModal() {
-    modal.style.display = 'none';
+    document.getElementById("modal").style.display = "none";
 }
 
-async function fetchBeers() {
-    const response = await fetch('/api/beers');
-    const beers = await response.json();
+document.getElementById("beer-form").addEventListener("submit", function (event) {
+    event.preventDefault(); 
 
-    beerTableBody.innerHTML = beers.map(beer => `
-        <tr id="beer-${beer.id}">
-            <td>${beer.id}</td>
-            <td>${beer.name}</td>
-            <td>${beer.type}</td>
-            <td>${beer.description || 'No description'}</td>
-            <td>
-                <button onclick="deleteBeer(${beer.id})">Delete</button>
-            </td>
-        </tr>
-    `).join('');
-}
+    const name = document.getElementById("beer-name").value;
+    const type = document.getElementById("beer-type").value;
+    const description = document.getElementById("beer-description").value;
 
-beerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    addBeerToTable(name, type, description);
+    document.getElementById("beer-name").value = "";
+    document.getElementById("beer-type").value = "";
+    document.getElementById("beer-description").value = "";
 
-    const name = document.getElementById('beer-name').value;
-    const type = document.getElementById('beer-type').value;
-    const description = document.getElementById('beer-description').value;
-
-    const response = await fetch('/api/beers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, type, description })
-    });
-
-    const newBeer = await response.json();
-    addBeerToTable(newBeer);
-    beerForm.reset();
     closeModal();
 });
 
-function addBeerToTable(beer) {
-    const newRow = document.createElement('tr');
-    newRow.id = `beer-${beer.id}`;
-    newRow.innerHTML = `
-        <td>${beer.id}</td>
-        <td>${beer.name}</td>
-        <td>${beer.type}</td>
-        <td>${beer.description || 'No description'}</td>
-        <td>
-            <button onclick="deleteBeer(${beer.id})">Delete</button>
-        </td>
+let beerId = 1;
+
+function addBeerToTable(name, type, description) {
+    const tableBody = document.querySelector("#beer-table tbody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${beerId}</td>
+        <td>${name}</td>
+        <td>${type}</td>
+        <td>${description}</td>
+        <td><button onclick="deleteBeer(this)">Delete</button></td>
     `;
-    beerTableBody.appendChild(newRow);
+
+    tableBody.appendChild(row);
+    beerId++;
 }
-async function deleteBeer(id) {
-    await fetch(`/api/beers/${id}`, { method: 'DELETE' });
-    document.getElementById(`beer-${id}`).remove();
+
+// Function to delete a beer row
+function deleteBeer(button) {
+    const row = button.parentElement.parentElement;
+    row.remove();
 }
-fetchBeers();
