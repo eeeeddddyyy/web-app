@@ -3,12 +3,7 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../db/beer.db');
 
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error connecting to SQLite:', err.message);
-        return;
-    }
-    console.log('Connected to SQLite database.');
+const db = new sqlite3.Database(dbPath);
 
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS beers (
@@ -20,13 +15,4 @@ const db = new sqlite3.Database(dbPath, (err) => {
         )
     `;
 
-    db.run(createTableQuery, (err) => {
-        if (err) {
-            console.error('Error creating beers table:', err.message);
-        } else {
-            console.log('Beers table is ready.');
-        }
-    });
-});
-
-module.exports = db;
+    db.exec(createTableQuery);
